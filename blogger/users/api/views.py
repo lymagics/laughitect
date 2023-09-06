@@ -2,7 +2,7 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 
 from core.decorators import input, output
-from users import services
+from users import services, selectors
 from users.api.schemas import UserIn, UserOut
 
 
@@ -19,5 +19,5 @@ def user_create(request):
 @api_view(['GET'])
 @output(UserOut)
 def user_get(request, user_id: int):
-    user = services.user_get(id=user_id)
+    user = selectors.user_get(id=user_id)
     return user
