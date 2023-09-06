@@ -1,6 +1,8 @@
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view, authentication_classes, permission_classes
 from rest_framework.response import Response
+from rest_framework.permissions import IsAuthenticated
 
+from auth.authentication import JWTAuthentication
 from core.decorators import input, output
 from users import services, selectors
 from users.api.schemas import UserIn, UserOut
@@ -21,3 +23,11 @@ def user_create(request):
 def user_get(request, user_id: int):
     user = selectors.user_get(id=user_id)
     return user
+
+
+@api_view(['GET'])
+@authentication_classes([JWTAuthentication])
+@permission_classes([IsAuthenticated])
+@output(UserOut)
+def me(request):
+    return request.user
