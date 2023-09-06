@@ -31,3 +31,14 @@ def user_get(request, user_id: int):
 @output(UserOut)
 def me(request):
     return request.user
+
+
+@api_view(['POST'])
+@authentication_classes([JWTAuthentication])
+@permission_classes([IsAuthenticated])
+@input(UserIn, partial=True)
+def user_update(request):
+    user_id = request.user.pk
+    data = request.data
+    services.user_update(user_id, **data)
+    return Response(status=200)
