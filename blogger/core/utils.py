@@ -22,3 +22,12 @@ def decode_jwt(jwt_token: str) -> Optional[dict]:
         )
     except jwt.PyJWKError:
         return None
+
+
+def model_update(instance, **data):
+    for field in data:
+        if hasattr(instance, field):
+            setattr(instance, field, data[field])
+    instance.full_clean()
+    instance.save()
+    return instance
