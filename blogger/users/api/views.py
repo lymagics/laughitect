@@ -1,9 +1,9 @@
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 
-from core.decorators import input
+from core.decorators import input, output
 from users import services
-from users.api.schemas import UserIn
+from users.api.schemas import UserIn, UserOut
 
 
 @api_view(['POST'])
@@ -14,3 +14,10 @@ def user_create(request):
         data['email'], data['username'], data['password'],
     )
     return Response(status=200)
+
+
+@api_view(['GET'])
+@output(UserOut)
+def user_get(request, user_id: int):
+    user = services.user_get(id=user_id)
+    return user
