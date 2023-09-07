@@ -34,6 +34,8 @@ def output(
         @wraps(func)
         def wrapper(request, *args, **kwargs):
             result = func(request, *args, **kwargs)
+            if isinstance(result, Response):
+                return result
             if not many:
                 s = schema(result)
                 return Response(s.data, status=status)
