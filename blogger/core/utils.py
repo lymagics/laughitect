@@ -18,9 +18,9 @@ def encode_jwt(payload: dict) -> str:
 def decode_jwt(jwt_token: str) -> Optional[dict]:
     try:
         return jwt.decode(
-            jwt_token, 
-            key=settings.SECRET_KEY, 
-            algorithms=["HS256"]
+            jwt_token,
+            key=settings.SECRET_KEY,
+            algorithms=["HS256"],
         )
     except jwt.PyJWKError:
         return None
@@ -47,6 +47,6 @@ def paginated_response(
     if page is not None:
         schema = schema_class(page, many=True)
         return paginator.get_paginated_response(schema.data)
-    
+
     schema = schema_class(queryset, many=True)
     return Response(schema.data)

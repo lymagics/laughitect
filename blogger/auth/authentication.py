@@ -19,4 +19,4 @@ class JWTAuthentication(authentication.BaseAuthentication):
             return None
 
         user = user_get(payload['id'])
-        return (user, None) 
+        return (user, None)

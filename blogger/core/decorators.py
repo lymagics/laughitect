@@ -23,9 +23,9 @@ def input(schema: BaseSerializer, partial: bool = False):
 
 
 def output(
-    schema: BaseSerializer, 
-    many: bool = False, 
-    status: int = 200
+    schema: BaseSerializer,
+    many: bool = False,
+    status: int = 200,
 ):
     """
     Output settings for view.
