@@ -1,6 +1,3 @@
-from unittest.mock import patch
-
-from django.http import HttpRequest
 from django.test import TestCase
 
 from auth import services
@@ -9,17 +6,16 @@ from users.tests.factories import UserFactory
 
 
 class TestServices(TestCase):
-    @patch('auth.services.django_login')
-    def test_login_service(self, django_login_mock):
-        user = UserFactory()
-        jwt_token = services.login(
-            HttpRequest(), user.username, 'testpass123',
+    """
+    Test case for auth services.
+    """
+    def test_login_service(self):
+        new_user = UserFactory()
+        user = services.login(
+            new_user.username, 'testpass123',
         )
-        self.assertIsNotNone(jwt_token)
+        self.assertEqual(user, new_user)
 
-    @patch('auth.services.django_login')
-    def test_login_service_fail(self, django_login_mock):
+    def test_login_service_fail(self):
         with self.assertRaises(InvalidCredentials):
-            services.login(
-                HttpRequest(), 'bob', '123',
-            )
+            services.login('bob', '123')
