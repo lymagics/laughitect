@@ -42,3 +42,9 @@ def user_update(request):
     data = request.data
     services.user_update(user_id, **data)
     return Response(status=200)
+
+
+@api_view(['GET'])
+@output(UserOut, many=True)
+def user_list(request):
+    return selectors.user_list()

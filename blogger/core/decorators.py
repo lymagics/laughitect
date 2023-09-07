@@ -3,7 +3,7 @@ from typing import Callable
 
 from rest_framework.serializers import BaseSerializer
 from rest_framework.response import Response
-from rest_framework.pagination import LimitOffsetPagination
+from rest_framework.pagination import PageNumberPagination
 
 from core.utils import paginated_response
 
@@ -38,7 +38,7 @@ def output(
                 s = schema(result)
                 return Response(s.data, status=status)
             return paginated_response(
-                pagination_class=LimitOffsetPagination,
+                pagination_class=PageNumberPagination,
                 schema_class=schema,
                 queryset=result,
                 request=request,
