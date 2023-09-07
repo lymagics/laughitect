@@ -1,3 +1,5 @@
+from django.contrib.auth import login as django_login
+
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 
@@ -12,15 +14,16 @@ from core.decorators import input
 def login(request):
     data = request.data
     try:
-        jwt_token = services.login(
-            request, data['username'], data['password'],
+        user = services.login(
+            data['username'], data['password'],
         )
     except InvalidCredentials as e:
         detail = {'detail': str(e)}
         return Response(detail, status=403)
 
+    django_login(request, user)
     response = Response(status=200)
-    response.set_cookie('access', jwt_token)
+    response.set_cookie('access', user.jwt_token)
     return response
 
 
