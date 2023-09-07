@@ -6,6 +6,9 @@ from users.tests.factories import UserFactory
 
 
 class TestSelectors(TestCase):
+    """
+    Test case for user selectors.
+    """
     def test_user_get_selector(self):
         new_user = UserFactory()
         user = selectors.user_get(new_user.pk)

@@ -7,6 +7,9 @@ from users.tests.factories import UserFactory
 
 
 class TestServices(TestCase):
+    """
+    Test case for user services.
+    """
     def test_user_create_service(self):
         self.assertEqual(0, User.objects.count())
         user = services.user_create(
