@@ -14,3 +14,9 @@ def post_get(request, pk: int):
     if post is None:
         raise Http404
     return post
+
+
+@api_view(['GET'])
+@output(PostOut,many=True)
+def post_list(request):
+    return selectors.post_list()

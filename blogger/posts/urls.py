@@ -4,6 +4,7 @@ from posts.api import views
 
 urlpatterns = [
     path('<int:pk>/', views.post_get, name='get'),
+    path('', views.post_list, name='list'),
 ]
 
 app_name = 'posts'
