@@ -5,3 +5,7 @@ from users.models import User
 
 def user_get(id: int):
     return get_object_or_404(User, pk=id)
+
+
+def user_list() -> list[User]:
+    return User.objects.all()
