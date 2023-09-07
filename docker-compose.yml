@@ -1,0 +1,16 @@
+version: '3.9'
+
+services:
+  blogger:
+    build:
+      context: .
+      dockerfile: ./docker/Dockerfile
+    env_file:
+      - blogger.env
+    depends_on:
+      - db
+
+  db:
+    image: postgres
+    env_file:
+      - db.env
