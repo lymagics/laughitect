@@ -3,6 +3,9 @@ from typing import Callable
 
 from rest_framework.serializers import BaseSerializer
 from rest_framework.response import Response
+from rest_framework.pagination import LimitOffsetPagination
+
+from core.utils import paginated_response
 
 
 def input(schema: BaseSerializer, partial: bool = False):
@@ -31,7 +34,14 @@ def output(
         @wraps(func)
         def wrapper(request, *args, **kwargs):
             result = func(request, *args, **kwargs)
-            s = schema(result, many=many)
-            return Response(s.data, status=status)
+            if not many:
+                s = schema(result)
+                return Response(s.data, status=status)
+            return paginated_response(
+                pagination_class=LimitOffsetPagination,
+                schema_class=schema,
+                queryset=result,
+                request=request,
+            )
         return wrapper
     return decorator
