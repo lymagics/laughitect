@@ -12,3 +12,7 @@ def post_create(text: str, author: User) -> Post:
 
 def post_update(post: Post, **data) -> Post:
     return model_update(post, **data)
+
+
+def post_delete(post: Post):
+    post.delete()

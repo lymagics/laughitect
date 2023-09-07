@@ -53,3 +53,17 @@ def post_update(request, pk: int):
         return Response(detail, status=403)
     post = services.post_update(post, **data)
     return post
+
+
+@api_view(['POST'])
+@authentication_classes([JWTAuthentication])
+@permission_classes([IsAuthenticated])
+def post_delete(request, pk: int):
+    post = selectors.post_get(pk)
+    if post is None:
+        raise Http404
+    if post.author != request.user:
+        detail = {'detail': 'Not your post.'}
+        return Response(detail, status=403)
+    services.post_delete(post)
+    return Response(status=204)
