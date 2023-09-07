@@ -17,3 +17,8 @@ class TestSelectors(TestCase):
     def test_user_get_selector_fail(self):
         with self.assertRaises(Http404):
             selectors.user_get(1)
+
+    def test_user_list_selector(self):
+        user = UserFactory()
+        users = selectors.user_list()
+        self.assertIn(user, users)
