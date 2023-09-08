@@ -70,3 +70,20 @@ def user_follow(request, pk: int):
     except FollowError as e:
         detail = {'detail': str(e)}
         return Response(detail, status=400)
+
+
+@api_view(['POST'])
+@authentication_classes([JWTAuthentication])
+@permission_classes([IsAuthenticated])
+def user_unfollow(request, pk: int):
+    user = selectors.user_get(pk)
+    if user is None:
+        raise Http404
+    try:
+        services.user_unfollow(
+            request.user, user,
+        )
+        return Response(status=200)
+    except FollowError as e:
+        detail = {'detail': str(e)}
+        return Response(detail, status=400)
