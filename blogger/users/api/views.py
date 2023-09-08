@@ -7,6 +7,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from users import selectors, services
 from users.api.schemas import UserIn, UserOut
+from users.errors import FollowError
 
 
 @api_view(['POST'])
@@ -52,3 +53,57 @@ def user_update(request):
 @output(UserOut, many=True)
 def user_list(request):
     return selectors.user_list()
+
+
+@api_view(['POST'])
+@authentication_classes([JWTAuthentication])
+@permission_classes([IsAuthenticated])
+def user_follow(request, pk: int):
+    user = selectors.user_get(pk)
+    if user is None:
+        raise Http404
+    try:
+        services.user_follow(
+            request.user, user,
+        )
+        return Response(status=200)
+    except FollowError as e:
+        detail = {'detail': str(e)}
+        return Response(detail, status=400)
+
+
+@api_view(['POST'])
+@authentication_classes([JWTAuthentication])
+@permission_classes([IsAuthenticated])
+def user_unfollow(request, pk: int):
+    user = selectors.user_get(pk)
+    if user is None:
+        raise Http404
+    try:
+        services.user_unfollow(
+            request.user, user,
+        )
+        return Response(status=200)
+    except FollowError as e:
+        detail = {'detail': str(e)}
+        return Response(detail, status=400)
+
+
+@api_view(['GET'])
+@output(UserOut, many=True)
+def user_following(request, pk: int):
+    user = selectors.user_get(pk)
+    if user is None:
+        raise Http404
+    following = selectors.user_following(user)
+    return following
+
+
+@api_view(['GET'])
+@output(UserOut, many=True)
+def user_followers(request, pk: int):
+    user = selectors.user_get(pk)
+    if user is None:
+        raise Http404
+    followers = selectors.user_followers(user)
+    return followers

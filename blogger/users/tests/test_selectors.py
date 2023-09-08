@@ -21,3 +21,17 @@ class TestSelectors(TestCase):
         user = UserFactory()
         users = selectors.user_list()
         self.assertIn(user, users)
+
+    def test_user_following_selector(self):
+        user = UserFactory()
+        other = UserFactory()
+        user.follow(other)
+        following = selectors.user_following(user)
+        self.assertIn(other, following)
+
+    def test_user_followers_selector(self):
+        user = UserFactory()
+        other = UserFactory()
+        user.follow(other)
+        followers = selectors.user_followers(other)
+        self.assertIn(user, followers)

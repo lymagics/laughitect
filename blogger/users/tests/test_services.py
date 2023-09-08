@@ -2,6 +2,7 @@ from django.core.exceptions import ValidationError
 from django.test import TestCase
 
 from users import services
+from users.errors import FollowError
 from users.models import User
 from users.tests.factories import UserFactory
 
@@ -33,3 +34,36 @@ class TestServices(TestCase):
         user.refresh_from_db()
         self.assertEqual(user.username, updated.username)
         self.assertTrue(user.check_password('catdog'))
+
+    def test_user_follow(self):
+        user = UserFactory()
+        other = UserFactory()
+        self.assertFalse(user.is_following(other))
+        services.user_follow(user, other)
+        self.assertTrue(user.is_following(other))
+
+    def test_user_follow_fail(self):
+        user = UserFactory()
+        other = UserFactory()
+        user.follow(other)
+        with self.assertRaises(FollowError):
+            services.user_follow(user, other)
+
+    def test_user_follow_itself(self):
+        user = UserFactory()
+        with self.assertRaises(FollowError):
+            services.user_follow(user, user)
+
+    def test_user_unfollow(self):
+        user = UserFactory()
+        other = UserFactory()
+        user.follow(other)
+        self.assertTrue(user.is_following(other))
+        services.user_unfollow(user, other)
+        self.assertFalse(user.is_following(other))
+
+    def test_user_unfollow(self):
+        user = UserFactory()
+        other = UserFactory()
+        with self.assertRaises(FollowError):
+            services.user_unfollow(user, other)
