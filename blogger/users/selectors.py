@@ -1,10 +1,8 @@
-from django.shortcuts import get_object_or_404
-
 from users.models import User
 
 
-def user_get(id: int):
-    return get_object_or_404(User, pk=id)
+def user_get(user_id: int) -> User:
+    return User.objects.filter(pk=user_id).first()
 
 
 def user_list() -> list[User]:
