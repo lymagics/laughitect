@@ -20,7 +20,7 @@ class User(AbstractUser):
         return encode_jwt(payload)
     
     def is_following(self, user: 'User') -> bool:
-        return user in self.following
+        return user in self.following.all()
 
     def follow(self, user: 'User'):
         self.following.add(user)
