@@ -1,6 +1,5 @@
-from rest_framework import serializers
-
 from posts.models import Post
+from rest_framework import serializers
 from users.api.schemas import UserOut
 
 

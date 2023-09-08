@@ -2,9 +2,8 @@ from typing import Optional
 
 from django.conf import settings
 
-from rest_framework.response import Response
-
 import jwt
+from rest_framework.response import Response
 
 
 def encode_jwt(payload: dict) -> str:

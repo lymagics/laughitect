@@ -1,7 +1,6 @@
+from core.utils import decode_jwt
 from rest_framework import authentication
 from rest_framework.request import Request
-
-from core.utils import decode_jwt
 from users.selectors import user_get
 
 
