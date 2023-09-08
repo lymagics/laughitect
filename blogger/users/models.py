@@ -18,3 +18,12 @@ class User(AbstractUser):
     def jwt_token(self) -> str:
         payload = {'id': self.pk}
         return encode_jwt(payload)
+    
+    def is_following(self, user: 'User') -> bool:
+        return user in self.following
+
+    def follow(self, user: 'User'):
+        self.following.add(user)
+
+    def unfollow(self, user: 'User'):
+        self.following.remove(user)
