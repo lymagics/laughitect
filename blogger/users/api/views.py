@@ -1,10 +1,11 @@
-from rest_framework.decorators import api_view, authentication_classes, permission_classes
-from rest_framework.response import Response
-from rest_framework.permissions import IsAuthenticated
+from django.http import Http404
 
 from auth.authentication import JWTAuthentication
 from core.decorators import input, output
-from users import services, selectors
+from rest_framework.decorators import api_view, authentication_classes, permission_classes
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.response import Response
+from users import selectors, services
 from users.api.schemas import UserIn, UserOut
 
 
@@ -20,8 +21,10 @@ def user_create(request):
 
 @api_view(['GET'])
 @output(UserOut)
-def user_get(request, user_id: int):
-    user = selectors.user_get(id=user_id)
+def user_get(request, pk: int):
+    user = selectors.user_get(pk)
+    if user is None:
+        raise Http404
     return user
 
 
@@ -38,9 +41,10 @@ def me(request):
 @permission_classes([IsAuthenticated])
 @input(UserIn, partial=True)
 def user_update(request):
-    user_id = request.user.pk
     data = request.data
-    services.user_update(user_id, **data)
+    services.user_update(
+        request.user, **data
+    )
     return Response(status=200)
 
 

@@ -1,13 +1,12 @@
 from django.http import Http404
 
-from rest_framework.decorators import api_view, authentication_classes, permission_classes
-from rest_framework.permissions import IsAuthenticated
-from rest_framework.response import Response
-
 from auth.authentication import JWTAuthentication
 from core.decorators import input, output
 from posts import selectors, services
 from posts.api.schemas import PostIn, PostOut
+from rest_framework.decorators import api_view, authentication_classes, permission_classes
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.response import Response
 
 
 @api_view(['GET'])

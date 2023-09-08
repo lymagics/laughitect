@@ -28,7 +28,7 @@ class TestServices(TestCase):
     def test_user_update_service(self):
         user = UserFactory()
         updated = services.user_update(
-            user.id, username='bob', password='catdog',
+            user, username='bob', password='catdog',
         )
         user.refresh_from_db()
         self.assertEqual(user.username, updated.username)

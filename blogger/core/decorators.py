@@ -1,11 +1,10 @@
 from functools import wraps
 from typing import Callable
 
-from rest_framework.serializers import BaseSerializer
-from rest_framework.response import Response
-from rest_framework.pagination import PageNumberPagination
-
 from core.utils import paginated_response
+from rest_framework.pagination import PageNumberPagination
+from rest_framework.response import Response
+from rest_framework.serializers import BaseSerializer
 
 
 def input(schema: BaseSerializer, partial: bool = False):

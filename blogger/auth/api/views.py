@@ -1,12 +1,11 @@
 from django.contrib.auth import login as django_login
 
-from rest_framework.decorators import api_view
-from rest_framework.response import Response
-
 from auth import services
 from auth.api.schemas import CredentialsIn
 from auth.errors import InvalidCredentials
 from core.decorators import input
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
 
 
 @api_view(['POST'])

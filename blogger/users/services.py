@@ -1,6 +1,5 @@
 from core.utils import model_update
 from users.models import User
-from users.selectors import user_get
 
 
 def user_create(
@@ -15,8 +14,7 @@ def user_create(
     return user
 
 
-def user_update(id: int, **data) -> User:
-    user = user_get(id)
+def user_update(user: User, **data) -> User:
     user = model_update(user, **data)
     if 'password' in data:
         user.set_password(data['password'])
