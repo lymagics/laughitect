@@ -6,6 +6,7 @@ from rest_framework.decorators import api_view, authentication_classes, permissi
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from users import selectors, services
+from users.errors import FollowError
 from users.api.schemas import UserIn, UserOut
 
 
@@ -52,3 +53,20 @@ def user_update(request):
 @output(UserOut, many=True)
 def user_list(request):
     return selectors.user_list()
+
+
+@api_view(['POST'])
+@authentication_classes([JWTAuthentication])
+@permission_classes([IsAuthenticated])
+def user_follow(request, pk: int):
+    user = selectors.user_get(pk)
+    if user is None:
+        raise Http404
+    try:
+        services.user_follow(
+            request.user, user,
+        )
+        return Response(status=200)
+    except FollowError as e:
+        detail = {'detail': str(e)}
+        return Response(detail, status=400)
