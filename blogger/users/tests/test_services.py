@@ -53,3 +53,17 @@ class TestServices(TestCase):
         user = UserFactory()
         with self.assertRaises(FollowError):
             services.user_follow(user, user)
+
+    def test_user_unfollow(self):
+        user = UserFactory()
+        other = UserFactory()
+        user.follow(other)
+        self.assertTrue(user.is_following(other))
+        services.user_unfollow(user, other)
+        self.assertFalse(user.is_following(other))
+
+    def test_user_unfollow(self):
+        user = UserFactory()
+        other = UserFactory()
+        with self.assertRaises(FollowError):
+            services.user_unfollow(user, other)
