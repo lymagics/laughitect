@@ -25,6 +25,9 @@ def user_update(user: User, **data) -> User:
 
 def user_follow(user: User, other: User):
     if user.is_following(other):
-        error = ''
+        error = 'You already follow this user.'
+        raise FollowError(error)
+    if user == other:
+        error = 'You can\'t follow yourself.'
         raise FollowError(error)
     user.follow(other)
