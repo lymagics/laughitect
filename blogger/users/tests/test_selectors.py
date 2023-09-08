@@ -29,7 +29,7 @@ class TestSelectors(TestCase):
         following = selectors.user_following(user)
         self.assertIn(other, following)
 
-    def test_user_following_selector(self):
+    def test_user_followers_selector(self):
         user = UserFactory()
         other = UserFactory()
         user.follow(other)
