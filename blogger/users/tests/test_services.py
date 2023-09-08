@@ -48,3 +48,8 @@ class TestServices(TestCase):
         user.follow(other)
         with self.assertRaises(FollowError):
             services.user_follow(user, other)
+
+    def test_user_follow_itself(self):
+        user = UserFactory()
+        with self.assertRaises(FollowError):
+            services.user_follow(user, user)
