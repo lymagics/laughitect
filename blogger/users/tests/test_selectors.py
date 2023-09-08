@@ -1,4 +1,3 @@
-from django.http import Http404
 from django.test import TestCase
 
 from users import selectors
@@ -15,8 +14,8 @@ class TestSelectors(TestCase):
         self.assertEqual(new_user, user)
 
     def test_user_get_selector_fail(self):
-        with self.assertRaises(Http404):
-            selectors.user_get(1)
+        user = selectors.user_get(1)
+        self.assertIsNone(user)
 
     def test_user_list_selector(self):
         user = UserFactory()
