@@ -87,3 +87,13 @@ def user_unfollow(request, pk: int):
     except FollowError as e:
         detail = {'detail': str(e)}
         return Response(detail, status=400)
+
+
+@api_view(['GET'])
+@output(UserOut, many=True)
+def user_following(request, pk: int):
+    user = selectors.user_get(pk)
+    if user is None:
+        raise Http404
+    following = selectors.user_following(user)
+    return following
