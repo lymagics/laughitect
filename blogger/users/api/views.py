@@ -97,3 +97,13 @@ def user_following(request, pk: int):
         raise Http404
     following = selectors.user_following(user)
     return following
+
+
+@api_view(['GET'])
+@output(UserOut, many=True)
+def user_followers(request, pk: int):
+    user = selectors.user_get(pk)
+    if user is None:
+        raise Http404
+    followers = selectors.user_followers(user)
+    return followers
