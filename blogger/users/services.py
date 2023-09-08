@@ -1,4 +1,5 @@
 from core.utils import model_update
+from users.errors import FollowError
 from users.models import User
 
 
@@ -20,3 +21,10 @@ def user_update(user: User, **data) -> User:
         user.set_password(data['password'])
         user.save()
     return user
+
+
+def user_follow(user: User, other: User):
+    if user.is_following(other):
+        error = ''
+        raise FollowError(error)
+    user.follow(other)
