@@ -6,8 +6,8 @@ from rest_framework.decorators import api_view, authentication_classes, permissi
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from users import selectors, services
-from users.errors import FollowError
 from users.api.schemas import UserIn, UserOut
+from users.errors import FollowError
 
 
 @api_view(['POST'])
