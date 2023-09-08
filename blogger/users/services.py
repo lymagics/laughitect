@@ -31,3 +31,10 @@ def user_follow(user: User, other: User):
         error = 'You can\'t follow yourself.'
         raise FollowError(error)
     user.follow(other)
+
+
+def user_unfollow(user: User, other: User):
+    if not user.is_following(other):
+        error = 'You don\'t follow this user.'
+        raise FollowError(error)
+    user.unfollow(other)
