@@ -42,9 +42,10 @@ def me(request):
 @permission_classes([IsAuthenticated])
 @input(UserIn, partial=True)
 def user_update(request):
-    user_id = request.user.pk
     data = request.data
-    services.user_update(user_id, **data)
+    services.user_update(
+        request.user, **data
+    )
     return Response(status=200)
 
 
